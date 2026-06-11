@@ -6,10 +6,18 @@
   "bin": {
     "packvault": "./dist/cli/index.js"
   },
+  "files": [
+    "dist",
+    "templates",
+    "bundles",
+    "docs",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/cli/index.ts",
     "start": "node dist/cli/index.js",
+    "prepare": "npm run build",
     "lint": "eslint . --ext .ts",
     "test": "vitest run"
   },

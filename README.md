@@ -14,13 +14,62 @@ PackVault is an offline-first package caching and distribution CLI for JavaScrip
 
 ## Install
 
+After PackVault is published to npm:
+
+```bash
+npm install -g packvault
+```
+
+Install directly from this GitHub repository:
+
+```bash
+npm install -g github:Demon-Die/PackVault
+```
+
+For local development:
+
 ```bash
 npm install
 npm run build
 npm link
 ```
 
-## Usage
+## Basic Workflow
+
+Cache packages once while online:
+
+```bash
+packvault sync react vite tailwindcss
+```
+
+Install later without internet:
+
+```bash
+packvault install react
+packvault install vite
+packvault install tailwindcss
+```
+
+Cache a full bundle while online:
+
+```bash
+packvault bundle frontend
+```
+
+Then install cached packages offline:
+
+```bash
+packvault install react
+packvault install vite
+```
+
+Check what is available offline:
+
+```bash
+packvault doctor
+```
+
+## Usage Examples
 
 ```bash
 packvault sync react vite tailwindcss
