@@ -169,6 +169,18 @@ program
   });
 
 program
+  .command("share")
+  .option("-p, --port <port>", "local sharing port", "4873")
+  .description("Share this PackVault cache with nearby machines on the same LAN.")
+  .action(async (options: { port: string }) => {
+    const services = await createServices();
+    const port = Number(options.port);
+    console.log(chalk.bold("Sharing PackVault cache on your local network."));
+    console.log(`Other machines can import packages with: ${chalk.cyan(`packvault connect <your-ip> --port ${port}`)}`);
+    await services.server.start(port);
+  });
+
+program
   .command("connect")
   .argument("<ip>", "PackVault node IP address")
   .option("-p, --port <port>", "remote node port", "4873")

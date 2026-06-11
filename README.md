@@ -153,6 +153,7 @@ packvault create react-app my-app
 packvault doctor
 packvault bundle frontend
 packvault serve
+packvault share
 packvault connect 192.168.1.25
 ```
 
@@ -250,6 +251,22 @@ Starts a local Express registry server on port `4873` by default and prints loca
 
 ```bash
 packvault serve --port 4873
+```
+
+### `packvault share`
+
+Shares your cached packages with nearby machines on the same Wi-Fi/LAN. This does not require internet access after packages are cached.
+
+On the machine with cached packages:
+
+```bash
+packvault share
+```
+
+On another machine connected to the same LAN:
+
+```bash
+packvault connect <your-ip>
 ```
 
 ### `packvault connect <ip>`
