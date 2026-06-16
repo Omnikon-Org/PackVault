@@ -22,16 +22,6 @@ packvault install react
 
 ---
 
-## Demo
-
-> Add a terminal GIF or screenshot here.
-
-```md
-![PackVault Demo](docs/demo.gif)
-```
-
----
-
 ## Why PackVault?
 
 Modern JavaScript development assumes a reliable internet connection.
