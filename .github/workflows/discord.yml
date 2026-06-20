@@ -1,0 +1,16 @@
+name: Discord Notifications
+
+on:
+  issues:
+    types: [opened, closed, reopened]
+
+  pull_request:
+    types: [opened, closed, reopened]
+
+  release:
+    types: [published]
+
+jobs:
+  notify:
+    uses: Demon-Die/.github/.github/workflows/discord-notifications.yml@main
+    secrets: inherit
