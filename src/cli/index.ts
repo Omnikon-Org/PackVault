@@ -24,6 +24,7 @@ import { SnapshotManager } from "../managers/SnapshotManager.js";
 import { formatBytes } from "../utils/format.js";
 import { handleCommandError } from "../utils/errors.js";
 import { loadProjectConfig, scaffoldProjectConfig } from "../utils/projectConfig.js";
+import { activateLicense, requireLicense } from "../utils/license.js";
 import { generateCompletion } from "./completion.js";
 import { isKnownFramework, isKnownTemplate, knownTemplates, normalizeTemplateName, runCreateWizard } from "./createWizard.js";
 
@@ -232,11 +233,23 @@ bundleCmd
   });
 
 program
+  .command("activate <key>")
+  .description("Activate PackVault license to unlock paid features.")
+  .action(async (key: string) => {
+    try {
+      await activateLicense(key);
+    } catch (e) {
+      handleCommandError("activate", e);
+    }
+  });
+
+program
   .command("serve")
   .option("-p, --port <port>", "port", "4873")
   .option("--token <token>", "auth token")
   .description("Serve cached packages as an npm registry with proxy mode.")
   .action(async (opts: { port: string; token?: string }) => {
+    await requireLicense();
     const services = await createServices();
     await services.server.start(Number(opts.port), { token: opts.token, proxy: true });
   });
@@ -247,6 +260,7 @@ program
   .option("--token <token>", "auth token")
   .description("Share vault on LAN with mDNS discovery.")
   .action(async (opts: { port: string; token?: string }) => {
+    await requireLicense();
     const services = await createServices();
     console.log(chalk.bold("Sharing PackVault cache on your local network."));
     await services.server.start(Number(opts.port), { token: opts.token, proxy: true });
@@ -259,6 +273,7 @@ program
   .option("--bidirectional", "sync both directions")
   .description("Connect to another PackVault node.")
   .action(async (ip: string | undefined, opts: { port: string; token?: string; bidirectional?: boolean }) => {
+    await requireLicense();
     const services = await createServices();
     const spinner = ora("Connecting").start();
     try {
@@ -276,6 +291,7 @@ program
   .command("discover")
   .description("Scan LAN for PackVault nodes via mDNS.")
   .action(async () => {
+    await requireLicense();
     const services = await createServices();
     try {
       const peers = await services.peers.discover();
