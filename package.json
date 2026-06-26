@@ -3,13 +3,13 @@
   "version": "0.2.2",
   "description": "Offline-first package caching and distribution CLI for JavaScript developers.",
   "type": "module",
-  "homepage": "https://github.com/Demon-Die/PackVault#readme",
+  "homepage": "https://github.com/Omnikon-Org/PackVault#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Demon-Die/PackVault.git"
+    "url": "git+https://github.com/Omnikon-Org/PackVault.git"
   },
   "bugs": {
-    "url": "https://github.com/Demon-Die/PackVault/issues"
+    "url": "https://github.com/Omnikon-Org/PackVault/issues"
   },
   "publishConfig": {
     "access": "public"

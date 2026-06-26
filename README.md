@@ -160,13 +160,13 @@ npm install -g packvault
 ### GitHub
 
 ```bash
-npm install -g github:Demon-Die/PackVault
+npm install -g github:Omnikon-Org/PackVault
 ```
 
 ### Local Development
 
 ```bash
-git clone https://github.com/Demon-Die/PackVault
+git clone https://github.com/Omnikon-Org/PackVault
 cd PackVault
 
 npm install
