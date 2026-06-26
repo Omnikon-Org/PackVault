@@ -123,6 +123,32 @@ Install   Sharing
 
 ---
 
+## Pricing & Tiers
+
+PackVault uses a simple, transparent pricing model to keep basic offline development accessible for everyone while providing powerful networking and collaboration tools for professionals and teams.
+
+### Community (Free)
+Ideal for individual developers and basic offline coding.
+- Local Sync & Install
+- Integrity Verification
+- Lockfile Aware
+- Project Templates
+- Offline Security Audit
+
+### Pro ($12/mo)
+Perfect for teams, classrooms, and enterprise environments. Includes everything in Community, plus:
+- **LAN Package Sharing (mDNS)**
+- **Peer-to-Peer Sync**
+- **Local Registry Proxy** (`packvault serve`)
+- **Bidirectional Node Connect**
+
+To activate your Pro license, run:
+```bash
+packvault activate <your-license-key>
+```
+
+---
+
 ## Installation
 
 ### npm
