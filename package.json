@@ -1,9 +1,9 @@
 {
   "name": "packvault",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Offline-first package caching and distribution CLI for JavaScript developers.",
   "type": "module",
-  "homepage": "https://github.com/Omnikon-Org/PackVault#readme",
+  "homepage": "https://pack-vault-website.vercel.app/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Omnikon-Org/PackVault.git"

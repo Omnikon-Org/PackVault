@@ -4,6 +4,8 @@
 
 **Built by [Omnikon](https://github.com/Omnikon-Org) — Developer tools for the next generation.**
 
+🌐 **Website:** [https://pack-vault-website.vercel.app/](https://pack-vault-website.vercel.app/)
+
 PackVault is an offline-first package caching and distribution CLI for JavaScript developers. Download package tarballs while online, install them later without internet access, share them across your LAN, and bootstrap entire projects from a local package vault.
 
 ```bash
