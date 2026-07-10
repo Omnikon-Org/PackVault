@@ -1,4 +1,18 @@
 #!/usr/bin/env node
+
+/**
+ * @module
+ *
+ * PackVault CLI
+ *
+ * Command-line interface for PackVault.
+ *
+ * @example
+ * ```bash
+ * packvault sync react vite
+ * ```
+ */
+
 import path from "node:path";
 import { Command } from "commander";
 import chalk from "chalk";

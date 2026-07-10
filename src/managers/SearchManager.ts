@@ -3,10 +3,25 @@ import { PackVaultDatabase } from "../db/database.js";
 import { builtInBundles } from "../config/bundles.js";
 import { formatBytes } from "../utils/format.js";
 
+/** Represents the SearchManager class. */
 export class SearchManager {
-  constructor(private readonly database: PackVaultDatabase) {}
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     */
+    constructor(private readonly database: PackVaultDatabase) {}
 
-  search(query: string, options: { all?: boolean; versions?: boolean } = {}): void {
+  /**
+     * Executes search operation.
+     * @param query - The query parameter.
+     * @param options - The options parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.search();
+     * ```
+     */
+    search(query: string, options: { all?: boolean; versions?: boolean } = {}): void {
     const packages = this.database.listPackages();
     const bundlePackages = new Set(builtInBundles.flatMap((b) => b.packages));
 

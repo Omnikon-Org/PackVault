@@ -1,3 +1,25 @@
+/**
+ * @module
+ *
+ * PackVault
+ *
+ * Offline-first package caching library for JavaScript and TypeScript.
+ *
+ * Features:
+ * - Offline package cache
+ * - LAN sharing
+ * - Package integrity
+ * - Templates
+ *
+ * @example
+ * ```ts
+ * import { CacheManager } from "@omnikon-org/packvault";
+ *
+ * const cache = new CacheManager();
+ * await cache.syncPackages(["vite"]);
+ * ```
+ */
+
 export * from "./db/database.js";
 export * from "./managers/AuditManager.js";
 export * from "./managers/BundleManager.js";
@@ -16,4 +38,3 @@ export * from "./managers/SnapshotManager.js";
 export * from "./managers/TemplateManager.js";
 export * from "./server/LocalRegistryServer.js";
 export * from "./types/index.js";
-export * from "./utils/projectConfig.js";

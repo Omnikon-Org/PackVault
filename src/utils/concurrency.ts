@@ -1,3 +1,9 @@
+/**
+ * Function runPool.
+ * @param items - The items parameter.
+ * @param concurrency - The concurrency parameter.
+ * @param worker - The worker parameter.
+ */
 export async function runPool<T, R>(
   items: T[],
   concurrency: number,

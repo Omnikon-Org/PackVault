@@ -10,20 +10,38 @@ import { startMdnsBroadcast } from "../utils/discovery.js";
 import { webUiHtml } from "./webUi.js";
 import type { CachedPackage } from "../types/index.js";
 
+/** Interface for ServerOptions */
 export interface ServerOptions {
   port?: number;
   token?: string;
   proxy?: boolean;
 }
 
+/** Represents the LocalRegistryServer class. */
 export class LocalRegistryServer {
-  constructor(
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     * @param cache - The cache parameter.
+     * @param registry - The registry parameter.
+     */
+    constructor(
     private readonly database: PackVaultDatabase,
     private readonly cache: CacheManager = new CacheManager(),
     private readonly registry: RegistryManager = new RegistryManager()
   ) {}
 
-  async start(port = 4873, options: ServerOptions = {}): Promise<void> {
+  /**
+     * Executes start operation.
+     * @param port - The port parameter.
+     * @param options - The options parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.start();
+     * ```
+     */
+    async start(port = 4873, options: ServerOptions = {}): Promise<void> {
     const app = express();
     const authToken = options.token;
 

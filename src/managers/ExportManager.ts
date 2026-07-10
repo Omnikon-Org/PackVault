@@ -7,10 +7,24 @@ import { verifyTarball } from "../utils/integrity.js";
 import { PackVaultError } from "../utils/errors.js";
 import type { CachedPackage } from "../types/index.js";
 
+/** Represents the ExportManager class. */
 export class ExportManager {
-  constructor(private readonly database: PackVaultDatabase) {}
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     */
+    constructor(private readonly database: PackVaultDatabase) {}
 
-  async export(options: {
+  /**
+     * Executes export operation.
+     * @param options - The options parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.export();
+     * ```
+     */
+    async export(options: {
     output: string;
     bundle?: string;
     packages?: string[];
@@ -61,7 +75,16 @@ export class ExportManager {
     console.log(`Exported ${pkgs.length} packages to ${options.output}`);
   }
 
-  async import(archivePath: string): Promise<void> {
+  /**
+     * Executes import operation.
+     * @param archivePath - The archivePath parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.import();
+     * ```
+     */
+    async import(archivePath: string): Promise<void> {
     const tmpDir = path.join(vaultPaths.exports, `.import-${Date.now()}`);
     await fs.ensureDir(tmpDir);
     await tar.x({ file: archivePath, cwd: tmpDir });

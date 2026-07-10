@@ -5,6 +5,10 @@ import { vaultPaths } from "../config/paths.js";
 
 const LICENSE_FILE = path.join(vaultPaths.root, "license.json");
 
+/**
+ * Function activateLicense.
+ * @param key - The key parameter.
+ */
 export async function activateLicense(key: string): Promise<void> {
   if (!key.startsWith("pv_")) {
     throw new Error("Invalid license key. PackVault license keys must start with 'pv_'.");
@@ -15,6 +19,7 @@ export async function activateLicense(key: string): Promise<void> {
   console.log(chalk.green(`✓ License activated successfully! Paid features unlocked.`));
 }
 
+/** Function requireLicense. */
 export async function requireLicense(): Promise<void> {
   try {
     const data = await fs.readJson(LICENSE_FILE);

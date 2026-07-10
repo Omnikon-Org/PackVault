@@ -5,6 +5,7 @@ import type { VaultConfig } from "../types/index.js";
 
 const configPath = path.join(vaultPaths.root, "config.json");
 
+/** Function loadVaultConfig. */
 export async function loadVaultConfig(): Promise<VaultConfig> {
   if (!(await fs.pathExists(configPath))) {
     return {};
@@ -12,11 +13,19 @@ export async function loadVaultConfig(): Promise<VaultConfig> {
   return fs.readJson(configPath) as VaultConfig;
 }
 
+/**
+ * Function saveVaultConfig.
+ * @param config - The config parameter.
+ */
 export async function saveVaultConfig(config: VaultConfig): Promise<void> {
   await fs.ensureDir(vaultPaths.root);
   await fs.writeJson(configPath, config, { spaces: 2 });
 }
 
+/**
+ * Function updateVaultConfig.
+ * @param updater - The updater parameter.
+ */
 export async function updateVaultConfig(
   updater: (current: VaultConfig) => VaultConfig
 ): Promise<VaultConfig> {
@@ -26,6 +35,12 @@ export async function updateVaultConfig(
   return updated;
 }
 
+/**
+ * Function getRegistryForPackage.
+ * @param name - The name parameter.
+ * @param config - The config parameter.
+ * @param override - The override parameter.
+ */
 export function getRegistryForPackage(
   name: string,
   config: VaultConfig,

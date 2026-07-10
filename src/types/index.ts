@@ -1,3 +1,4 @@
+/** Interface for CachedPackage */
 export interface CachedPackage {
   name: string;
   version: string;
@@ -11,6 +12,7 @@ export interface CachedPackage {
   accessedAt?: string;
 }
 
+/** Interface for PackageRecord */
 export interface PackageRecord {
   name: string;
   version: string;
@@ -24,23 +26,27 @@ export interface PackageRecord {
   accessed_at?: string;
 }
 
+/** Interface for BundleRecord */
 export interface BundleRecord {
   name: string;
   packages: string;
 }
 
+/** Interface for BundleDefinition */
 export interface BundleDefinition {
   name: string;
   packages: string[];
   builtIn?: boolean;
 }
 
+/** Interface for PeerRecord */
 export interface PeerRecord {
   ip: string;
   hostname: string;
   lastSeen: string;
 }
 
+/** Interface for LogEntry */
 export interface LogEntry {
   id: number;
   action: string;
@@ -49,6 +55,7 @@ export interface LogEntry {
   createdAt: string;
 }
 
+/** Interface for AdvisoryRecord */
 export interface AdvisoryRecord {
   packageName: string;
   versionRange: string;
@@ -58,11 +65,13 @@ export interface AdvisoryRecord {
   createdAt: string;
 }
 
+/** Interface for LockfileEntry */
 export interface LockfileEntry {
   name: string;
   version: string;
 }
 
+/** Interface for VaultConfig */
 export interface VaultConfig {
   schedule?: { enabled: boolean; every: string; nextRun?: string };
   registries?: Record<string, { url: string; token?: string }>;
@@ -71,6 +80,7 @@ export interface VaultConfig {
   policy?: { allow?: string[]; block?: string[] };
 }
 
+/** Interface for ProjectConfig */
 export interface ProjectConfig {
   bundle?: string;
   packages?: string[];
@@ -78,6 +88,7 @@ export interface ProjectConfig {
   concurrency?: number;
 }
 
+/** Interface for NpmDist */
 export interface NpmDist {
   tarball: string;
   shasum?: string;
@@ -85,6 +96,7 @@ export interface NpmDist {
   unpackedSize?: number;
 }
 
+/** Interface for NpmVersionMetadata */
 export interface NpmVersionMetadata {
   name: string;
   version: string;
@@ -92,6 +104,7 @@ export interface NpmVersionMetadata {
   dependencies?: Record<string, string>;
 }
 
+/** Interface for NpmPackageMetadata */
 export interface NpmPackageMetadata {
   name: string;
   "dist-tags": Record<string, string>;
@@ -99,6 +112,7 @@ export interface NpmPackageMetadata {
   time?: Record<string, string>;
 }
 
+/** Interface for SyncResult */
 export interface SyncResult {
   name: string;
   version: string;
@@ -108,17 +122,20 @@ export interface SyncResult {
   skipped?: boolean;
 }
 
+/** Interface for SyncSummary */
 export interface SyncSummary {
   results: SyncResult[];
   synced: number;
   skipped: number;
 }
 
+/** Interface for InstallResult */
 export interface InstallResult {
   installed: string[];
   rootPath: string;
 }
 
+/** Interface for DoctorReport */
 export interface DoctorReport {
   packages: CachedPackage[];
   storageBytes: number;
@@ -131,6 +148,7 @@ export interface DoctorReport {
   orphanedRows?: CachedPackage[];
 }
 
+/** Interface for ProjectDoctorEntry */
 export interface ProjectDoctorEntry {
   spec: string;
   name: string;
@@ -139,6 +157,7 @@ export interface ProjectDoctorEntry {
   resolvedVersion?: string;
 }
 
+/** Interface for VaultPaths */
 export interface VaultPaths {
   root: string;
   cache: string;
@@ -148,6 +167,7 @@ export interface VaultPaths {
   exports: string;
 }
 
+/** Interface for SyncOptions */
 export interface SyncOptions {
   dependencies?: boolean;
   concurrency?: number;
@@ -156,6 +176,7 @@ export interface SyncOptions {
   onProgress?: (info: ProgressInfo) => void;
 }
 
+/** Interface for ProgressInfo */
 export interface ProgressInfo {
   name: string;
   version: string;

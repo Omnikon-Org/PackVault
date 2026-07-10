@@ -1,6 +1,11 @@
 import type { PackVaultDatabase } from "../db/database.js";
 import { knownTemplates } from "../cli/createWizard.js";
 
+/**
+ * Function generateCompletion.
+ * @param shell - The shell parameter.
+ * @param database - The database parameter.
+ */
 export function generateCompletion(shell: string, database: PackVaultDatabase): string {
   const packages = [...new Set(database.listPackages().map((p) => p.name))];
   const bundles = database.listBundles().map((b) => b.name);

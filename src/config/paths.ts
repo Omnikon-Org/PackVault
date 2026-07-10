@@ -14,6 +14,7 @@ export const vaultPaths: VaultPaths = {
   exports: path.join(root, "exports")
 };
 
+/** Function ensureVaultLayout. */
 export async function ensureVaultLayout(): Promise<void> {
   await fs.ensureDir(vaultPaths.cache);
   await fs.ensureDir(vaultPaths.templates);
@@ -22,6 +23,11 @@ export async function ensureVaultLayout(): Promise<void> {
   await fs.ensureDir(vaultPaths.exports);
 }
 
+/**
+ * Function packageCachePath.
+ * @param packageName - The packageName parameter.
+ * @param version - The version parameter.
+ */
 export function packageCachePath(packageName: string, version: string): string {
   const safeName = packageName.replace("/", "__");
   return path.join(vaultPaths.cache, safeName, version, `${safeName}-${version}.tgz`);

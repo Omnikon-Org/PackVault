@@ -9,13 +9,29 @@ import type { DoctorReport, ProjectDoctorEntry } from "../types/index.js";
 import path from "node:path";
 import fs from "fs-extra";
 
+/** Represents the DoctorManager class. */
 export class DoctorManager {
-  constructor(
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     * @param cache - The cache parameter.
+     */
+    constructor(
     private readonly database: PackVaultDatabase,
     private readonly cache: CacheManager
   ) {}
 
-  async inspect(options: { fix?: boolean } = {}): Promise<DoctorReport> {
+  /**
+     * Executes inspect operation.
+     * @param options - The options parameter.
+     * @returns The inspect result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.inspect();
+     * ```
+     */
+    async inspect(options: { fix?: boolean } = {}): Promise<DoctorReport> {
     const packages = this.database.listPackages();
     const cachedNames = new Set(packages.map((p) => p.name));
     const requiredNames = new Set(builtInBundles.flatMap((b) => b.packages));
@@ -59,7 +75,17 @@ export class DoctorManager {
     };
   }
 
-  async inspectProject(projectPath: string): Promise<ProjectDoctorEntry[]> {
+  /**
+     * Executes inspectProject operation.
+     * @param projectPath - The projectPath parameter.
+     * @returns The inspectProject result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.inspectProject();
+     * ```
+     */
+    async inspectProject(projectPath: string): Promise<ProjectDoctorEntry[]> {
     const deps = await readPackageJsonDeps(path.resolve(projectPath));
     const entries: ProjectDoctorEntry[] = [];
 
@@ -80,7 +106,17 @@ export class DoctorManager {
     return entries;
   }
 
-  printReport(report: DoctorReport, fix = false): void {
+  /**
+     * Executes printReport operation.
+     * @param report - The report parameter.
+     * @param fix - The fix parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.printReport();
+     * ```
+     */
+    printReport(report: DoctorReport, fix = false): void {
     console.log(chalk.bold("\nVault Health Report"));
     console.log("─".repeat(40));
 
@@ -110,7 +146,17 @@ export class DoctorManager {
     if (fix) console.log(chalk.green("\n✓ Orphans cleaned."));
   }
 
-  printProjectReport(projectPath: string, entries: ProjectDoctorEntry[]): void {
+  /**
+     * Executes printProjectReport operation.
+     * @param projectPath - The projectPath parameter.
+     * @param entries - The entries parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.printProjectReport();
+     * ```
+     */
+    printProjectReport(projectPath: string, entries: ProjectDoctorEntry[]): void {
     console.log(`\nProject: ${projectPath}`);
     console.log("─".repeat(40));
     const cached = entries.filter((e) => e.cached).length;

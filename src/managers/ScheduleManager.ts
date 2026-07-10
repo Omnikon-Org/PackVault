@@ -6,13 +6,28 @@ import type { PackageManager } from "./PackageManager.js";
 
 let scheduledTask: cron.ScheduledTask | undefined;
 
+/** Represents the ScheduleManager class. */
 export class ScheduleManager {
-  constructor(
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     * @param packages - The packages parameter.
+     */
+    constructor(
     private readonly database: PackVaultDatabase,
     private readonly packages: PackageManager
   ) {}
 
-  async enable(every: string): Promise<void> {
+  /**
+     * Executes enable operation.
+     * @param every - The every parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.enable();
+     * ```
+     */
+    async enable(every: string): Promise<void> {
     const hours = parseEvery(every);
     const cronExpr = `0 */${hours} * * *`;
 
@@ -30,7 +45,15 @@ export class ScheduleManager {
     console.log(`Next run: ${config.schedule.nextRun}`);
   }
 
-  async status(): Promise<void> {
+  /**
+     * Executes status operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.status();
+     * ```
+     */
+    async status(): Promise<void> {
     const config = await loadVaultConfig();
     if (!config.schedule?.enabled) {
       console.log("Scheduled sync is disabled.");
@@ -40,7 +63,15 @@ export class ScheduleManager {
     console.log(`Next run: ${config.schedule.nextRun ?? "unknown"}`);
   }
 
-  async disable(): Promise<void> {
+  /**
+     * Executes disable operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.disable();
+     * ```
+     */
+    async disable(): Promise<void> {
     if (scheduledTask) {
       scheduledTask.stop();
       scheduledTask = undefined;

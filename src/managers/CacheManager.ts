@@ -6,8 +6,20 @@ import { verifyTarball, extractShasum } from "../utils/integrity.js";
 import { PackVaultError } from "../utils/errors.js";
 import type { CachedPackage, NpmVersionMetadata } from "../types/index.js";
 
+/** Represents the CacheManager class. */
 export class CacheManager {
-  async writeTarball(metadata: NpmVersionMetadata, stream: NodeJS.ReadableStream): Promise<CachedPackage> {
+  /**
+     * Executes writeTarball operation.
+     * @param metadata - The metadata parameter.
+     * @param stream - The stream parameter.
+     * @returns The writeTarball result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.writeTarball();
+     * ```
+     */
+    async writeTarball(metadata: NpmVersionMetadata, stream: NodeJS.ReadableStream): Promise<CachedPackage> {
     const cachePath = packageCachePath(metadata.name, metadata.version);
     const tmpPath = `${cachePath}.tmp`;
     await fs.ensureDir(path.dirname(cachePath));
@@ -47,16 +59,47 @@ export class CacheManager {
     }
   }
 
-  async verifyCached(pkg: CachedPackage): Promise<boolean> {
+  /**
+     * Executes verifyCached operation.
+     * @param pkg - The pkg parameter.
+     * @returns The verifyCached result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.verifyCached();
+     * ```
+     */
+    async verifyCached(pkg: CachedPackage): Promise<boolean> {
     if (!(await fs.pathExists(pkg.cachePath))) return false;
     return verifyTarball(pkg.cachePath, pkg.integrity, pkg.shasum);
   }
 
-  async hasTarball(pkg: CachedPackage): Promise<boolean> {
+  /**
+     * Executes hasTarball operation.
+     * @param pkg - The pkg parameter.
+     * @returns The hasTarball result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.hasTarball();
+     * ```
+     */
+    async hasTarball(pkg: CachedPackage): Promise<boolean> {
     return fs.pathExists(pkg.cachePath);
   }
 
-  async importTarball(pkg: CachedPackage, stream: NodeJS.ReadableStream): Promise<CachedPackage> {
+  /**
+     * Executes importTarball operation.
+     * @param pkg - The pkg parameter.
+     * @param stream - The stream parameter.
+     * @returns The importTarball result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.importTarball();
+     * ```
+     */
+    async importTarball(pkg: CachedPackage, stream: NodeJS.ReadableStream): Promise<CachedPackage> {
     return this.writeTarball(
       {
         name: pkg.name,
@@ -68,7 +111,17 @@ export class CacheManager {
     );
   }
 
-  async storageUsage(rootPath: string): Promise<number> {
+  /**
+     * Executes storageUsage operation.
+     * @param rootPath - The rootPath parameter.
+     * @returns The storageUsage result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.storageUsage();
+     * ```
+     */
+    async storageUsage(rootPath: string): Promise<number> {
     if (!(await fs.pathExists(rootPath))) return 0;
 
     let total = 0;
@@ -81,7 +134,17 @@ export class CacheManager {
     return total;
   }
 
-  async listCacheFiles(rootPath: string): Promise<string[]> {
+  /**
+     * Executes listCacheFiles operation.
+     * @param rootPath - The rootPath parameter.
+     * @returns The listCacheFiles result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.listCacheFiles();
+     * ```
+     */
+    async listCacheFiles(rootPath: string): Promise<string[]> {
     if (!(await fs.pathExists(rootPath))) return [];
     const files: string[] = [];
     const walk = async (dir: string): Promise<void> => {

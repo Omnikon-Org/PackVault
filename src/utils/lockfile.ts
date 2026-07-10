@@ -4,6 +4,10 @@ import type { LockfileEntry } from "../types/index.js";
 
 const LOCKFILES = ["package-lock.json", "yarn.lock", "pnpm-lock.yaml"] as const;
 
+/**
+ * Function detectLockfile.
+ * @param dir - The dir parameter.
+ */
 export function detectLockfile(dir = process.cwd()): string | undefined {
   for (const name of LOCKFILES) {
     const full = path.join(dir, name);
@@ -12,6 +16,10 @@ export function detectLockfile(dir = process.cwd()): string | undefined {
   return undefined;
 }
 
+/**
+ * Function parseLockfile.
+ * @param filePath - The filePath parameter.
+ */
 export async function parseLockfile(filePath?: string): Promise<LockfileEntry[]> {
   const resolved = filePath ?? detectLockfile();
   if (!resolved) {

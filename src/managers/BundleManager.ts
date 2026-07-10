@@ -4,24 +4,56 @@ import { PackVaultDatabase } from "../db/database.js";
 import { formatBytes } from "../utils/format.js";
 import type { BundleDefinition } from "../types/index.js";
 
+/** Represents the BundleManager class. */
 export class BundleManager {
-  constructor(private readonly database: PackVaultDatabase) {}
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     */
+    constructor(private readonly database: PackVaultDatabase) {}
 
-  async seedBuiltIns(): Promise<void> {
+  /**
+     * Executes seedBuiltIns operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.seedBuiltIns();
+     * ```
+     */
+    async seedBuiltIns(): Promise<void> {
     const { builtInBundles } = await import("../config/bundles.js");
     for (const bundle of builtInBundles) {
       await this.database.upsertBundle(bundle);
     }
   }
 
-  list(): BundleDefinition[] {
+  /**
+     * Executes list operation.
+     * @returns The list result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.list();
+     * ```
+     */
+    list(): BundleDefinition[] {
     return this.database.listBundles().map((b) => ({
       ...b,
       builtIn: builtInBundleNames.has(b.name)
     }));
   }
 
-  async save(name: string, packages: string[]): Promise<void> {
+  /**
+     * Executes save operation.
+     * @param name - The name parameter.
+     * @param packages - The packages parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.save();
+     * ```
+     */
+    async save(name: string, packages: string[]): Promise<void> {
     if (builtInBundleNames.has(name)) {
       throw new Error(`Cannot overwrite built-in bundle "${name}".`);
     }
@@ -29,7 +61,16 @@ export class BundleManager {
     await this.database.addLog("bundle", `saved ${name}: ${packages.join(", ")}`, "cli");
   }
 
-  async remove(name: string): Promise<void> {
+  /**
+     * Executes remove operation.
+     * @param name - The name parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.remove();
+     * ```
+     */
+    async remove(name: string): Promise<void> {
     if (builtInBundleNames.has(name)) {
       throw new Error(`Cannot delete built-in bundle "${name}".`);
     }
@@ -37,7 +78,16 @@ export class BundleManager {
     await this.database.addLog("bundle", `deleted ${name}`, "cli");
   }
 
-  printList(database: PackVaultDatabase): void {
+  /**
+     * Executes printList operation.
+     * @param database - The database parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.printList();
+     * ```
+     */
+    printList(database: PackVaultDatabase): void {
     const packages = database.listPackages();
     for (const bundle of this.list()) {
       const count = bundle.packages.length;

@@ -1,10 +1,24 @@
 import chalk from "chalk";
 import { PackVaultDatabase } from "../db/database.js";
 
+/** Represents the DiffManager class. */
 export class DiffManager {
-  constructor(private readonly database: PackVaultDatabase) {}
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     */
+    constructor(private readonly database: PackVaultDatabase) {}
 
-  diff(options: { since?: string; bundle?: string } = {}): void {
+  /**
+     * Executes diff operation.
+     * @param options - The options parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.diff();
+     * ```
+     */
+    diff(options: { since?: string; bundle?: string } = {}): void {
     const days = options.since ? parseInt(options.since.replace("d", ""), 10) : 7;
     const cutoff = new Date(Date.now() - days * 86400000).toISOString();
     const packages = this.database.listPackages();

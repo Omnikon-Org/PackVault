@@ -6,27 +6,74 @@ import type { CachedPackage, PeerRecord } from "../types/index.js";
 import { CacheManager } from "./CacheManager.js";
 import { discoverPeers, type DiscoveredPeer } from "../utils/discovery.js";
 
+/** Represents the PeerManager class. */
 export class PeerManager {
-  constructor(
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     * @param cache - The cache parameter.
+     */
+    constructor(
     private readonly database: PackVaultDatabase,
     private readonly cache: CacheManager
   ) {}
 
-  async recordPeer(ip: string, hostname = "unknown"): Promise<PeerRecord> {
+  /**
+     * Executes recordPeer operation.
+     * @param ip - The ip parameter.
+     * @param hostname - The hostname parameter.
+     * @returns The recordPeer result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.recordPeer();
+     * ```
+     */
+    async recordPeer(ip: string, hostname = "unknown"): Promise<PeerRecord> {
     const peer = { ip, hostname, lastSeen: new Date().toISOString() };
     await this.database.upsertPeer(peer);
     return peer;
   }
 
-  listPeers(): PeerRecord[] {
+  /**
+     * Executes listPeers operation.
+     * @returns The listPeers result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.listPeers();
+     * ```
+     */
+    listPeers(): PeerRecord[] {
     return this.database.listPeers();
   }
 
-  async discover(): Promise<DiscoveredPeer[]> {
+  /**
+     * Executes discover operation.
+     * @returns The discover result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.discover();
+     * ```
+     */
+    async discover(): Promise<DiscoveredPeer[]> {
     return discoverPeers();
   }
 
-  async connect(ip: string, port = 4873, options: { token?: string; bidirectional?: boolean } = {}): Promise<CachedPackage[]> {
+  /**
+     * Executes connect operation.
+     * @param ip - The ip parameter.
+     * @param port - The port parameter.
+     * @param options - The options parameter.
+     * @returns The connect result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.connect();
+     * ```
+     */
+    async connect(ip: string, port = 4873, options: { token?: string; bidirectional?: boolean } = {}): Promise<CachedPackage[]> {
     const headers = options.token ? { Authorization: `Bearer ${options.token}` } : {};
     const baseUrl = `http://${ip}:${port}`;
 
@@ -73,7 +120,17 @@ export class PeerManager {
     return imported;
   }
 
-  async interactiveConnect(options: { port?: number; token?: string } = {}): Promise<CachedPackage[]> {
+  /**
+     * Executes interactiveConnect operation.
+     * @param options - The options parameter.
+     * @returns The interactiveConnect result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.interactiveConnect();
+     * ```
+     */
+    async interactiveConnect(options: { port?: number; token?: string } = {}): Promise<CachedPackage[]> {
     const peers = await this.discover();
     if (peers.length === 0) {
       throw new Error("No PackVault nodes found on the network. Try packvault discover.");

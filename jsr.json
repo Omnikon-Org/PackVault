@@ -1,12 +1,13 @@
 {
   "name": "@omnikon-org/packvault",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "exports": {
     ".": "./src/index.ts",
     "./cli": "./src/cli/index.ts"
   },
   "exclude": [
     "tests",
+    "examples",
     "website",
     ".github"
   ]

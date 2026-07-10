@@ -4,10 +4,24 @@ import { PackVaultDatabase } from "../db/database.js";
 import { readPackageJsonDeps } from "../utils/projectConfig.js";
 import path from "node:path";
 
+/** Represents the AuditManager class. */
 export class AuditManager {
-  constructor(private readonly database: PackVaultDatabase) {}
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     */
+    constructor(private readonly database: PackVaultDatabase) {}
 
-  async audit(options: { project?: string; fix?: boolean } = {}): Promise<void> {
+  /**
+     * Executes audit operation.
+     * @param options - The options parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.audit();
+     * ```
+     */
+    async audit(options: { project?: string; fix?: boolean } = {}): Promise<void> {
     let packageNames: string[];
 
     if (options.project) {

@@ -13,12 +13,21 @@ import type {
   PeerRecord
 } from "../types/index.js";
 
+/** Represents the PackVaultDatabase class. */
 export class PackVaultDatabase {
   private sql?: SqlJsStatic;
   private db?: Database;
   private databasePath = path.join(vaultPaths.database, "packvault.sqlite");
 
-  async initialize(): Promise<void> {
+  /**
+     * Executes initialize operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.initialize();
+     * ```
+     */
+    async initialize(): Promise<void> {
     await ensureVaultLayout();
     this.sql = await initSqlJs();
     this.db = await fs.pathExists(this.databasePath)
@@ -29,11 +38,28 @@ export class PackVaultDatabase {
     await this.persist();
   }
 
-  close(): void {
+  /**
+     * Executes close operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.close();
+     * ```
+     */
+    close(): void {
     this.db?.close();
   }
 
-  async upsertPackage(pkg: CachedPackage): Promise<void> {
+  /**
+     * Executes upsertPackage operation.
+     * @param pkg - The pkg parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.upsertPackage();
+     * ```
+     */
+    async upsertPackage(pkg: CachedPackage): Promise<void> {
     this.connection.run(
       `INSERT INTO packages (name, version, size, cache_path, dependencies, dist_tarball, integrity, shasum, accessed_at, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -62,7 +88,17 @@ export class PackVaultDatabase {
     await this.persist();
   }
 
-  async updateAccessedAt(name: string, version: string): Promise<void> {
+  /**
+     * Executes updateAccessedAt operation.
+     * @param name - The name parameter.
+     * @param version - The version parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.updateAccessedAt();
+     * ```
+     */
+    async updateAccessedAt(name: string, version: string): Promise<void> {
     this.connection.run(
       "UPDATE packages SET accessed_at = ? WHERE name = ? AND version = ?",
       [new Date().toISOString(), name, version]
@@ -70,12 +106,33 @@ export class PackVaultDatabase {
     await this.persist();
   }
 
-  async deletePackage(name: string, version: string): Promise<void> {
+  /**
+     * Executes deletePackage operation.
+     * @param name - The name parameter.
+     * @param version - The version parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.deletePackage();
+     * ```
+     */
+    async deletePackage(name: string, version: string): Promise<void> {
     this.connection.run("DELETE FROM packages WHERE name = ? AND version = ?", [name, version]);
     await this.persist();
   }
 
-  findPackage(name: string, version?: string): CachedPackage | undefined {
+  /**
+     * Executes findPackage operation.
+     * @param name - The name parameter.
+     * @param version - The version parameter.
+     * @returns The findPackage result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.findPackage();
+     * ```
+     */
+    findPackage(name: string, version?: string): CachedPackage | undefined {
     const result = version
       ? this.connection.exec("SELECT * FROM packages WHERE name = ? AND version = ?", [name, version])
       : this.connection.exec("SELECT * FROM packages WHERE name = ? ORDER BY created_at DESC LIMIT 1", [name]);
@@ -84,18 +141,46 @@ export class PackVaultDatabase {
     return row ? this.toCachedPackage(row) : undefined;
   }
 
-  findPackagesByName(name: string): CachedPackage[] {
+  /**
+     * Executes findPackagesByName operation.
+     * @param name - The name parameter.
+     * @returns The findPackagesByName result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.findPackagesByName();
+     * ```
+     */
+    findPackagesByName(name: string): CachedPackage[] {
     return this.rows<PackageRecord>(
       this.connection.exec("SELECT * FROM packages WHERE name LIKE ? ORDER BY version ASC", [`%${name}%`])
     ).map((row) => this.toCachedPackage(row));
   }
 
-  listPackages(): CachedPackage[] {
+  /**
+     * Executes listPackages operation.
+     * @returns The listPackages result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.listPackages();
+     * ```
+     */
+    listPackages(): CachedPackage[] {
     return this.rows<PackageRecord>(this.connection.exec("SELECT * FROM packages ORDER BY name ASC, version ASC"))
       .map((row) => this.toCachedPackage(row));
   }
 
-  async upsertBundle(bundle: BundleDefinition): Promise<void> {
+  /**
+     * Executes upsertBundle operation.
+     * @param bundle - The bundle parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.upsertBundle();
+     * ```
+     */
+    async upsertBundle(bundle: BundleDefinition): Promise<void> {
     this.connection.run(
       `INSERT INTO bundles (name, packages) VALUES (?, ?)
        ON CONFLICT(name) DO UPDATE SET packages = excluded.packages`,
@@ -104,18 +189,45 @@ export class PackVaultDatabase {
     await this.persist();
   }
 
-  async deleteBundle(name: string): Promise<void> {
+  /**
+     * Executes deleteBundle operation.
+     * @param name - The name parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.deleteBundle();
+     * ```
+     */
+    async deleteBundle(name: string): Promise<void> {
     this.connection.run("DELETE FROM bundles WHERE name = ?", [name]);
     await this.persist();
   }
 
-  listBundles(): BundleDefinition[] {
+  /**
+     * Executes listBundles operation.
+     * @returns The listBundles result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.listBundles();
+     * ```
+     */
+    listBundles(): BundleDefinition[] {
     return this.rows<{ name: string; packages: string }>(
       this.connection.exec("SELECT name, packages FROM bundles ORDER BY name ASC")
     ).map((row) => ({ name: row.name, packages: JSON.parse(row.packages) as string[] }));
   }
 
-  async upsertPeer(peer: PeerRecord): Promise<void> {
+  /**
+     * Executes upsertPeer operation.
+     * @param peer - The peer parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.upsertPeer();
+     * ```
+     */
+    async upsertPeer(peer: PeerRecord): Promise<void> {
     this.connection.run(
       `INSERT INTO peers (ip, hostname, last_seen) VALUES (?, ?, ?)
        ON CONFLICT(ip) DO UPDATE SET hostname = excluded.hostname, last_seen = excluded.last_seen`,
@@ -124,13 +236,33 @@ export class PackVaultDatabase {
     await this.persist();
   }
 
-  listPeers(): PeerRecord[] {
+  /**
+     * Executes listPeers operation.
+     * @returns The listPeers result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.listPeers();
+     * ```
+     */
+    listPeers(): PeerRecord[] {
     return this.rows<{ ip: string; hostname: string; last_seen: string }>(
       this.connection.exec("SELECT ip, hostname, last_seen FROM peers ORDER BY last_seen DESC")
     ).map((row) => ({ ip: row.ip, hostname: row.hostname, lastSeen: row.last_seen }));
   }
 
-  async addLog(action: string, detail?: string, source?: string): Promise<void> {
+  /**
+     * Executes addLog operation.
+     * @param action - The action parameter.
+     * @param detail - The detail parameter.
+     * @param source - The source parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.addLog();
+     * ```
+     */
+    async addLog(action: string, detail?: string, source?: string): Promise<void> {
     this.connection.run(
       "INSERT INTO logs (action, detail, source) VALUES (?, ?, ?)",
       [action, detail ?? null, source ?? null]
@@ -138,7 +270,17 @@ export class PackVaultDatabase {
     await this.persist();
   }
 
-  listLogs(options: { last?: number; action?: string } = {}): LogEntry[] {
+  /**
+     * Executes listLogs operation.
+     * @param options - The options parameter.
+     * @returns The listLogs result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.listLogs();
+     * ```
+     */
+    listLogs(options: { last?: number; action?: string } = {}): LogEntry[] {
     const limit = options.last ?? 20;
     const query = options.action
       ? "SELECT * FROM logs WHERE action = ? ORDER BY id DESC LIMIT ?"
@@ -156,12 +298,29 @@ export class PackVaultDatabase {
     }));
   }
 
-  async clearLogs(): Promise<void> {
+  /**
+     * Executes clearLogs operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.clearLogs();
+     * ```
+     */
+    async clearLogs(): Promise<void> {
     this.connection.run("DELETE FROM logs");
     await this.persist();
   }
 
-  async upsertAdvisory(advisory: AdvisoryRecord): Promise<void> {
+  /**
+     * Executes upsertAdvisory operation.
+     * @param advisory - The advisory parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.upsertAdvisory();
+     * ```
+     */
+    async upsertAdvisory(advisory: AdvisoryRecord): Promise<void> {
     this.connection.run(
       `INSERT INTO advisories (package_name, version_range, severity, title, url)
        VALUES (?, ?, ?, ?, ?)`,
@@ -170,12 +329,31 @@ export class PackVaultDatabase {
     await this.persist();
   }
 
-  async clearAdvisoriesForPackage(name: string): Promise<void> {
+  /**
+     * Executes clearAdvisoriesForPackage operation.
+     * @param name - The name parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.clearAdvisoriesForPackage();
+     * ```
+     */
+    async clearAdvisoriesForPackage(name: string): Promise<void> {
     this.connection.run("DELETE FROM advisories WHERE package_name = ?", [name]);
     await this.persist();
   }
 
-  listAdvisories(packageNames?: string[]): AdvisoryRecord[] {
+  /**
+     * Executes listAdvisories operation.
+     * @param packageNames - The packageNames parameter.
+     * @returns The listAdvisories result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.listAdvisories();
+     * ```
+     */
+    listAdvisories(packageNames?: string[]): AdvisoryRecord[] {
     const query = packageNames?.length
       ? `SELECT * FROM advisories WHERE package_name IN (${packageNames.map(() => "?").join(",")})`
       : "SELECT * FROM advisories";

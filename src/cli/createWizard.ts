@@ -1,6 +1,7 @@
 import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
+/** Interface for TemplateChoice */
 export interface TemplateChoice {
   label: string;
   value: string;
@@ -110,11 +111,17 @@ const frameworks: FrameworkChoice[] = [
   }
 ];
 
+/** Interface for CreateWizardResult */
 export interface CreateWizardResult {
   projectName: string;
   templateName: string;
 }
 
+/**
+ * Function runCreateWizard.
+ * @param defaultProjectName - The defaultProjectName parameter.
+ * @param preferredFrameworkId - The preferredFrameworkId parameter.
+ */
 export async function runCreateWizard(
   defaultProjectName?: string,
   preferredFrameworkId?: string
@@ -145,18 +152,31 @@ export async function runCreateWizard(
   }
 }
 
+/**
+ * Function isKnownFramework.
+ * @param value - The value parameter.
+ */
 export function isKnownFramework(value: string): boolean {
   return Boolean(findFramework(value));
 }
 
+/**
+ * Function isKnownTemplate.
+ * @param value - The value parameter.
+ */
 export function isKnownTemplate(value: string): boolean {
   return knownTemplates().includes(value);
 }
 
+/**
+ * Function normalizeTemplateName.
+ * @param value - The value parameter.
+ */
 export function normalizeTemplateName(value: string): string {
   return value === "react-app" ? "react-vite" : value;
 }
 
+/** Function knownTemplates. */
 export function knownTemplates(): string[] {
   return [
     "react-vite",

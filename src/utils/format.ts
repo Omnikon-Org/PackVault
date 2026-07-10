@@ -1,3 +1,7 @@
+/**
+ * Function formatBytes.
+ * @param bytes - The bytes parameter.
+ */
 export function formatBytes(bytes: number): string {
   if (bytes === 0) {
     return "0 B";
@@ -9,6 +13,10 @@ export function formatBytes(bytes: number): string {
   return `${value.toFixed(value >= 10 ? 0 : 1)} ${units[index]}`;
 }
 
+/**
+ * Function titleCase.
+ * @param value - The value parameter.
+ */
 export function titleCase(value: string): string {
   return value
     .split(/[-_\s]+/)

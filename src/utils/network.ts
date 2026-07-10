@@ -1,5 +1,6 @@
 import os from "node:os";
 
+/** Function getLanAddresses. */
 export function getLanAddresses(): string[] {
   return Object.values(os.networkInterfaces())
     .flatMap((interfaces) => interfaces ?? [])

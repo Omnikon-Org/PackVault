@@ -1,6 +1,10 @@
 import crypto from "node:crypto";
 import fs from "fs-extra";
 
+/**
+ * Function parseIntegrity.
+ * @param integrity - The integrity parameter.
+ */
 export function parseIntegrity(integrity?: string): { algorithm: string; digest: string } | undefined {
   if (!integrity) return undefined;
   const [algorithm, digest] = integrity.split("-");
@@ -8,6 +12,12 @@ export function parseIntegrity(integrity?: string): { algorithm: string; digest:
   return { algorithm, digest };
 }
 
+/**
+ * Function verifyTarball.
+ * @param filePath - The filePath parameter.
+ * @param integrity - The integrity parameter.
+ * @param shasum - The shasum parameter.
+ */
 export async function verifyTarball(
   filePath: string,
   integrity?: string,
@@ -31,6 +41,11 @@ export async function verifyTarball(
   return true;
 }
 
+/**
+ * Function extractShasum.
+ * @param integrity - The integrity parameter.
+ * @param shasum - The shasum parameter.
+ */
 export function extractShasum(integrity?: string, shasum?: string): string | undefined {
   if (shasum) return shasum;
   if (integrity?.startsWith("sha1-")) {

@@ -1,6 +1,6 @@
 {
   "name": "packvault",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Offline-first package caching and distribution CLI for JavaScript developers.",
   "type": "module",
   "homepage": "https://pack-vault-website.vercel.app/",
@@ -48,7 +48,7 @@
     "registry",
     "cli"
   ],
-  "author": "",
+  "author": "Omnikon-Org",
   "license": "MIT",
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
@@ -74,6 +74,7 @@
     "@types/semver": "^7.7.1",
     "@types/sql.js": "^1.4.9",
     "eslint": "^9.17.0",
+    "ts-morph": "^28.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vitest": "^4.1.8"

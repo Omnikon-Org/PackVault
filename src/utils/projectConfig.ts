@@ -4,6 +4,10 @@ import type { ProjectConfig } from "../types/index.js";
 
 const CONFIG_NAMES = ["packvault.config.js", ".packvaultrc.json"] as const;
 
+/**
+ * Function loadProjectConfig.
+ * @param dir - The dir parameter.
+ */
 export async function loadProjectConfig(dir: string = process.cwd()): Promise<ProjectConfig | undefined> {
   for (const name of CONFIG_NAMES) {
     const full = path.join(dir, name);
@@ -20,6 +24,10 @@ export async function loadProjectConfig(dir: string = process.cwd()): Promise<Pr
   return undefined;
 }
 
+/**
+ * Function scaffoldProjectConfig.
+ * @param dir - The dir parameter.
+ */
 export async function scaffoldProjectConfig(dir: string = process.cwd()): Promise<string> {
   const target = path.join(dir, "packvault.config.js");
   const content = `export default {
@@ -33,6 +41,10 @@ export async function scaffoldProjectConfig(dir: string = process.cwd()): Promis
   return target;
 }
 
+/**
+ * Function readPackageJsonDeps.
+ * @param projectPath - The projectPath parameter.
+ */
 export async function readPackageJsonDeps(projectPath: string): Promise<Record<string, string>> {
   const pkgPath = path.join(projectPath, "package.json");
   if (!(await fs.pathExists(pkgPath))) {

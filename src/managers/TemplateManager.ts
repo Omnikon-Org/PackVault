@@ -5,8 +5,17 @@ import { vaultPaths } from "../config/paths.js";
 
 const sourceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../templates");
 
+/** Represents the TemplateManager class. */
 export class TemplateManager {
-  async seedTemplates(): Promise<void> {
+  /**
+     * Executes seedTemplates operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.seedTemplates();
+     * ```
+     */
+    async seedTemplates(): Promise<void> {
     if (!(await fs.pathExists(sourceRoot))) {
       return;
     }
@@ -17,7 +26,19 @@ export class TemplateManager {
     });
   }
 
-  async create(templateName: string, projectName: string, destination: string = process.cwd()): Promise<string> {
+  /**
+     * Executes create operation.
+     * @param templateName - The templateName parameter.
+     * @param projectName - The projectName parameter.
+     * @param destination - The destination parameter.
+     * @returns The create result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.create();
+     * ```
+     */
+    async create(templateName: string, projectName: string, destination: string = process.cwd()): Promise<string> {
     await this.seedTemplates();
 
     const templatePath = path.join(vaultPaths.templates, templateName);

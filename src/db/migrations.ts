@@ -1,5 +1,6 @@
 import type { Database } from "sql.js";
 
+/** Interface for Migration */
 export interface Migration {
   version: number;
   up: (db: Database) => void;
@@ -49,6 +50,10 @@ const migrations: Migration[] = [
   }
 ];
 
+/**
+ * Function runMigrations.
+ * @param db - The db parameter.
+ */
 export function runMigrations(db: Database): void {
   db.run(`CREATE TABLE IF NOT EXISTS schema_version (version INTEGER PRIMARY KEY)`);
 

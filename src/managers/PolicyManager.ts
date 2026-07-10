@@ -1,8 +1,18 @@
 import chalk from "chalk";
 import { loadVaultConfig, updateVaultConfig } from "../utils/config.js";
 
+/** Represents the PolicyManager class. */
 export class PolicyManager {
-  async allow(packages: string[]): Promise<void> {
+  /**
+     * Executes allow operation.
+     * @param packages - The packages parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.allow();
+     * ```
+     */
+    async allow(packages: string[]): Promise<void> {
     await updateVaultConfig((config) => {
       const allow = new Set(config.policy?.allow ?? []);
       for (const pkg of packages) allow.add(pkg);
@@ -11,7 +21,16 @@ export class PolicyManager {
     console.log(chalk.green(`Added ${packages.length} package(s) to allowlist.`));
   }
 
-  async block(packages: string[]): Promise<void> {
+  /**
+     * Executes block operation.
+     * @param packages - The packages parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.block();
+     * ```
+     */
+    async block(packages: string[]): Promise<void> {
     await updateVaultConfig((config) => {
       const block = new Set(config.policy?.block ?? []);
       for (const pkg of packages) block.add(pkg);
@@ -20,7 +39,15 @@ export class PolicyManager {
     console.log(chalk.yellow(`Blocked ${packages.length} package(s).`));
   }
 
-  async list(): Promise<void> {
+  /**
+     * Executes list operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.list();
+     * ```
+     */
+    async list(): Promise<void> {
     const config = await loadVaultConfig();
     const policy = config.policy;
     if (!policy?.allow?.length && !policy?.block?.length) {
@@ -35,7 +62,15 @@ export class PolicyManager {
     }
   }
 
-  async clear(): Promise<void> {
+  /**
+     * Executes clear operation.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.clear();
+     * ```
+     */
+    async clear(): Promise<void> {
     await updateVaultConfig((config) => ({ ...config, policy: undefined }));
     console.log(chalk.green("Policy cleared."));
   }

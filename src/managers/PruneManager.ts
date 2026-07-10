@@ -3,10 +3,25 @@ import chalk from "chalk";
 import { PackVaultDatabase } from "../db/database.js";
 import { formatBytes } from "../utils/format.js";
 
+/** Represents the PruneManager class. */
 export class PruneManager {
-  constructor(private readonly database: PackVaultDatabase) {}
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     */
+    constructor(private readonly database: PackVaultDatabase) {}
 
-  async prune(options: {
+  /**
+     * Executes prune operation.
+     * @param options - The options parameter.
+     * @returns The prune result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.prune();
+     * ```
+     */
+    async prune(options: {
     olderThan?: string;
     keepLatest?: boolean;
     dryRun?: boolean;

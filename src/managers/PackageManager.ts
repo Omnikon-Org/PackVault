@@ -14,21 +14,50 @@ import { PackVaultError } from "../utils/errors.js";
 import { parseLockfile } from "../utils/lockfile.js";
 import { readPackageJsonDeps } from "../utils/projectConfig.js";
 
+/** Represents the PackageManager class. */
 export class PackageManager {
-  constructor(
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     * @param registry - The registry parameter.
+     * @param cache - The cache parameter.
+     */
+    constructor(
     private readonly database: PackVaultDatabase,
     private readonly registry: RegistryManager,
     private readonly cache: CacheManager
   ) {}
 
-  async syncFromLockfile(lockfilePath?: string, options: SyncOptions = {}): Promise<SyncSummary> {
+  /**
+     * Executes syncFromLockfile operation.
+     * @param lockfilePath - The lockfilePath parameter.
+     * @param options - The options parameter.
+     * @returns The syncFromLockfile result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.syncFromLockfile();
+     * ```
+     */
+    async syncFromLockfile(lockfilePath?: string, options: SyncOptions = {}): Promise<SyncSummary> {
     const entries = await parseLockfile(lockfilePath);
     console.log(`Found ${entries.length} packages in lockfile. Syncing...`);
     const specs = entries.map((e) => `${e.name}@${e.version}`);
     return this.sync(specs, { ...options, dependencies: false });
   }
 
-  async sync(packages: string[], options: SyncOptions = {}): Promise<SyncSummary> {
+  /**
+     * Executes sync operation.
+     * @param packages - The packages parameter.
+     * @param options - The options parameter.
+     * @returns The sync result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.sync();
+     * ```
+     */
+    async sync(packages: string[], options: SyncOptions = {}): Promise<SyncSummary> {
     const config = await loadVaultConfig();
     const concurrency = Math.min(Math.max(options.concurrency ?? 5, 1), 20);
     const specs = packages.map((s) => this.parsePackageSpec(s));
@@ -109,7 +138,19 @@ export class PackageManager {
     return { results, synced, skipped };
   }
 
-  async install(name: string, targetProject: string = process.cwd(), version?: string): Promise<InstallResult> {
+  /**
+     * Executes install operation.
+     * @param name - The name parameter.
+     * @param targetProject - The targetProject parameter.
+     * @param version - The version parameter.
+     * @returns The install result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.install();
+     * ```
+     */
+    async install(name: string, targetProject: string = process.cwd(), version?: string): Promise<InstallResult> {
     const config = await loadVaultConfig();
     enforcePolicy(name, config, "install");
 
@@ -143,7 +184,17 @@ export class PackageManager {
     return { installed, rootPath: path.join(targetProject, "node_modules", name) };
   }
 
-  async installFromPackageJson(projectPath: string = process.cwd()): Promise<InstallResult[]> {
+  /**
+     * Executes installFromPackageJson operation.
+     * @param projectPath - The projectPath parameter.
+     * @returns The installFromPackageJson result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.installFromPackageJson();
+     * ```
+     */
+    async installFromPackageJson(projectPath: string = process.cwd()): Promise<InstallResult[]> {
     const deps = await readPackageJsonDeps(projectPath);
     const results: InstallResult[] = [];
     for (const name of Object.keys(deps)) {
@@ -152,13 +203,36 @@ export class PackageManager {
     return results;
   }
 
-  async syncBundle(bundleName: string, options: SyncOptions = {}): Promise<SyncSummary> {
+  /**
+     * Executes syncBundle operation.
+     * @param bundleName - The bundleName parameter.
+     * @param options - The options parameter.
+     * @returns The syncBundle result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.syncBundle();
+     * ```
+     */
+    async syncBundle(bundleName: string, options: SyncOptions = {}): Promise<SyncSummary> {
     const bundle = this.database.listBundles().find((b) => b.name === bundleName);
     if (!bundle) throw new PackVaultError("bundle", `Unknown bundle "${bundleName}".`, "Run packvault bundle list.");
     return this.sync(bundle.packages, options);
   }
 
-  resolveForInstall(name: string, targetProject: string, range?: string): CachedPackage | undefined {
+  /**
+     * Executes resolveForInstall operation.
+     * @param name - The name parameter.
+     * @param targetProject - The targetProject parameter.
+     * @param range - The range parameter.
+     * @returns The resolveForInstall result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.resolveForInstall();
+     * ```
+     */
+    resolveForInstall(name: string, targetProject: string, range?: string): CachedPackage | undefined {
     const candidates = this.database.listPackages().filter((p) => p.name === name);
     if (candidates.length === 0) return undefined;
 

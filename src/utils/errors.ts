@@ -1,7 +1,14 @@
 import chalk from "chalk";
 
+/** Represents the PackVaultError class. */
 export class PackVaultError extends Error {
-  constructor(
+  /**
+     * Creates a new instance.
+     * @param command - The command parameter.
+     * @param message - The message parameter.
+     * @param hint - The hint parameter.
+     */
+    constructor(
     public readonly command: string,
     message: string,
     public readonly hint?: string
@@ -10,7 +17,16 @@ export class PackVaultError extends Error {
     this.name = "PackVaultError";
   }
 
-  format(): string {
+  /**
+     * Executes format operation.
+     * @returns The format result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.format();
+     * ```
+     */
+    format(): string {
     const lines = [`✗ [${this.command}] Error: ${this.message}`];
     if (this.hint) {
       lines.push(`Hint: ${this.hint}`);
@@ -19,6 +35,11 @@ export class PackVaultError extends Error {
   }
 }
 
+/**
+ * Function formatError.
+ * @param command - The command parameter.
+ * @param error - The error parameter.
+ */
 export function formatError(command: string, error: unknown): string {
   if (error instanceof PackVaultError) {
     return error.format();
@@ -44,6 +65,11 @@ export function formatError(command: string, error: unknown): string {
   return chalk.red(`✗ [${command}] Error: ${String(error)}`);
 }
 
+/**
+ * Function handleCommandError.
+ * @param command - The command parameter.
+ * @param error - The error parameter.
+ */
 export function handleCommandError(command: string, error: unknown): void {
   console.error(formatError(command, error));
   process.exitCode = 1;

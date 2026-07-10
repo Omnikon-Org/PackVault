@@ -7,13 +7,29 @@ import { parseLockfile } from "../utils/lockfile.js";
 import { verifyTarball } from "../utils/integrity.js";
 import type { PackageManager } from "./PackageManager.js";
 
+/** Represents the SnapshotManager class. */
 export class SnapshotManager {
-  constructor(
+  /**
+     * Creates a new instance.
+     * @param database - The database parameter.
+     * @param packages - The packages parameter.
+     */
+    constructor(
     private readonly database: PackVaultDatabase,
     private readonly packages: PackageManager
   ) {}
 
-  async create(projectPath: string, output: string): Promise<void> {
+  /**
+     * Executes create operation.
+     * @param projectPath - The projectPath parameter.
+     * @param output - The output parameter.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.create();
+     * ```
+     */
+    async create(projectPath: string, output: string): Promise<void> {
     const resolved = path.resolve(projectPath);
     const entries = await parseLockfile(path.join(resolved, detectLockfileName(resolved)));
     const tmpDir = path.join(vaultPaths.exports, `.snapshot-${Date.now()}`);
@@ -48,7 +64,18 @@ export class SnapshotManager {
     console.log(`Snapshot created: ${output} (${manifest.packages.length} packages, ${formatSize(totalSize)})`);
   }
 
-  async restore(archivePath: string, targetDir?: string): Promise<string> {
+  /**
+     * Executes restore operation.
+     * @param archivePath - The archivePath parameter.
+     * @param targetDir - The targetDir parameter.
+     * @returns The restore result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.restore();
+     * ```
+     */
+    async restore(archivePath: string, targetDir?: string): Promise<string> {
     const tmpDir = path.join(vaultPaths.exports, `.restore-${Date.now()}`);
     await fs.ensureDir(tmpDir);
     await tar.x({ file: archivePath, cwd: tmpDir });

@@ -1,6 +1,12 @@
 import type { VaultConfig } from "../types/index.js";
 import { PackVaultError } from "./errors.js";
 
+/**
+ * Function enforcePolicy.
+ * @param name - The name parameter.
+ * @param config - The config parameter.
+ * @param command - The command parameter.
+ */
 export function enforcePolicy(name: string, config: VaultConfig, command: string): void {
   const policy = config.policy;
   if (!policy) return;

@@ -4,11 +4,17 @@ import semver from "semver";
 import type { NpmPackageMetadata, NpmVersionMetadata } from "../types/index.js";
 import { PackVaultError } from "../utils/errors.js";
 
+/** Represents the RegistryManager class. */
 export class RegistryManager {
   private readonly client: AxiosInstance;
   private online: boolean | undefined;
 
-  constructor(
+  /**
+     * Creates a new instance.
+     * @param registryUrl - The registryUrl parameter.
+     * @param token - The token parameter.
+     */
+    constructor(
     private readonly registryUrl = "https://registry.npmjs.org",
     private readonly token?: string
   ) {
@@ -22,7 +28,16 @@ export class RegistryManager {
     });
   }
 
-  async isOnline(): Promise<boolean> {
+  /**
+     * Executes isOnline operation.
+     * @returns The isOnline result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.isOnline();
+     * ```
+     */
+    async isOnline(): Promise<boolean> {
     if (this.online !== undefined) return this.online;
     try {
       await dns.lookup("registry.npmjs.org");
@@ -33,7 +48,17 @@ export class RegistryManager {
     return this.online;
   }
 
-  async getPackageMetadata(name: string): Promise<NpmPackageMetadata> {
+  /**
+     * Executes getPackageMetadata operation.
+     * @param name - The name parameter.
+     * @returns The getPackageMetadata result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.getPackageMetadata();
+     * ```
+     */
+    async getPackageMetadata(name: string): Promise<NpmPackageMetadata> {
     try {
       const response = await this.client.get<NpmPackageMetadata>(`/${encodeURIComponent(name)}`);
       return response.data;
@@ -50,7 +75,18 @@ export class RegistryManager {
     }
   }
 
-  async resolveVersion(name: string, requestedVersion = "latest"): Promise<NpmVersionMetadata> {
+  /**
+     * Executes resolveVersion operation.
+     * @param name - The name parameter.
+     * @param requestedVersion - The requestedVersion parameter.
+     * @returns The resolveVersion result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.resolveVersion();
+     * ```
+     */
+    async resolveVersion(name: string, requestedVersion = "latest"): Promise<NpmVersionMetadata> {
     const metadata = await this.getPackageMetadata(name);
     const version = this.resolveVersionFromMetadata(metadata, requestedVersion);
     const versionMetadata = metadata.versions[version];
@@ -73,7 +109,17 @@ export class RegistryManager {
     return maxSatisfying;
   }
 
-  async downloadTarball(tarballUrl: string): Promise<NodeJS.ReadableStream> {
+  /**
+     * Executes downloadTarball operation.
+     * @param tarballUrl - The tarballUrl parameter.
+     * @returns The downloadTarball result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.downloadTarball();
+     * ```
+     */
+    async downloadTarball(tarballUrl: string): Promise<NodeJS.ReadableStream> {
     const response = await axios.get<NodeJS.ReadableStream>(tarballUrl, {
       responseType: "stream",
       timeout: 120_000,
@@ -82,7 +128,17 @@ export class RegistryManager {
     return response.data;
   }
 
-  async fetchAdvisories(packages: string[]): Promise<Array<{
+  /**
+     * Executes fetchAdvisories operation.
+     * @param packages - The packages parameter.
+     * @returns The fetchAdvisories result.
+     * @example
+     * ```ts
+     * // Example usage
+     * const result = await instance.fetchAdvisories();
+     * ```
+     */
+    async fetchAdvisories(packages: string[]): Promise<Array<{
     packageName: string;
     versionRange: string;
     severity: string;

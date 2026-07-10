@@ -1,5 +1,6 @@
 import { Bonjour } from "bonjour-service";
 
+/** Interface for DiscoveredPeer */
 export interface DiscoveredPeer {
   hostname: string;
   ip: string;
@@ -9,6 +10,11 @@ export interface DiscoveredPeer {
 
 let bonjourInstance: Bonjour | undefined;
 
+/**
+ * Function startMdnsBroadcast.
+ * @param port - The port parameter.
+ * @param packageCount - The packageCount parameter.
+ */
 export function startMdnsBroadcast(port: number, packageCount: number): void {
   stopMdnsBroadcast();
   bonjourInstance = new Bonjour();
@@ -20,11 +26,16 @@ export function startMdnsBroadcast(port: number, packageCount: number): void {
   });
 }
 
+/** Function stopMdnsBroadcast. */
 export function stopMdnsBroadcast(): void {
   bonjourInstance?.unpublishAll(() => bonjourInstance?.destroy());
   bonjourInstance = undefined;
 }
 
+/**
+ * Function discoverPeers.
+ * @param timeoutMs - The timeoutMs parameter.
+ */
 export function discoverPeers(timeoutMs = 3000): Promise<DiscoveredPeer[]> {
   return new Promise((resolve) => {
     const bonjour = new Bonjour();
