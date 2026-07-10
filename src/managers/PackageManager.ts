@@ -109,7 +109,7 @@ export class PackageManager {
     return { results, synced, skipped };
   }
 
-  async install(name: string, targetProject = process.cwd(), version?: string): Promise<InstallResult> {
+  async install(name: string, targetProject: string = process.cwd(), version?: string): Promise<InstallResult> {
     const config = await loadVaultConfig();
     enforcePolicy(name, config, "install");
 
@@ -143,7 +143,7 @@ export class PackageManager {
     return { installed, rootPath: path.join(targetProject, "node_modules", name) };
   }
 
-  async installFromPackageJson(projectPath = process.cwd()): Promise<InstallResult[]> {
+  async installFromPackageJson(projectPath: string = process.cwd()): Promise<InstallResult[]> {
     const deps = await readPackageJsonDeps(projectPath);
     const results: InstallResult[] = [];
     for (const name of Object.keys(deps)) {

@@ -19,8 +19,8 @@ export interface ServerOptions {
 export class LocalRegistryServer {
   constructor(
     private readonly database: PackVaultDatabase,
-    private readonly cache = new CacheManager(),
-    private readonly registry = new RegistryManager()
+    private readonly cache: CacheManager = new CacheManager(),
+    private readonly registry: RegistryManager = new RegistryManager()
   ) {}
 
   async start(port = 4873, options: ServerOptions = {}): Promise<void> {

@@ -17,7 +17,7 @@ export class TemplateManager {
     });
   }
 
-  async create(templateName: string, projectName: string, destination = process.cwd()): Promise<string> {
+  async create(templateName: string, projectName: string, destination: string = process.cwd()): Promise<string> {
     await this.seedTemplates();
 
     const templatePath = path.join(vaultPaths.templates, templateName);

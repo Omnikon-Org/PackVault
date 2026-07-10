@@ -4,7 +4,7 @@ import type { ProjectConfig } from "../types/index.js";
 
 const CONFIG_NAMES = ["packvault.config.js", ".packvaultrc.json"] as const;
 
-export async function loadProjectConfig(dir = process.cwd()): Promise<ProjectConfig | undefined> {
+export async function loadProjectConfig(dir: string = process.cwd()): Promise<ProjectConfig | undefined> {
   for (const name of CONFIG_NAMES) {
     const full = path.join(dir, name);
     if (!(await fs.pathExists(full))) continue;
@@ -13,13 +13,14 @@ export async function loadProjectConfig(dir = process.cwd()): Promise<ProjectCon
       return fs.readJson(full) as ProjectConfig;
     }
 
-    const mod = await import(full);
+    const { pathToFileURL } = await import("node:url");
+    const mod = await import(pathToFileURL(full).href);
     return (mod.default ?? mod) as ProjectConfig;
   }
   return undefined;
 }
 
-export async function scaffoldProjectConfig(dir = process.cwd()): Promise<string> {
+export async function scaffoldProjectConfig(dir: string = process.cwd()): Promise<string> {
   const target = path.join(dir, "packvault.config.js");
   const content = `export default {
   bundle: 'frontend',
